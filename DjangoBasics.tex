@@ -1,0 +1,279 @@
+\documentclass[12pt]{beamer}
+
+% list of packages used
+\usepackage[latin1]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{listings}
+
+% Author details
+\author{Sanyam, Ashutosh @EduTechLabs}
+\title{Django Basics}
+
+% configs
+
+%%set theme 
+\usetheme{Luebeck}
+
+%%configure listings package for python
+% Default fixed font does not support bold face
+\DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{8pt} % for bold
+\DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{8pt}  % for normal
+
+%custom colours
+\usepackage{color}
+\definecolor{deepblue}{rgb}{0,0,0.5}
+\definecolor{deepred}{rgb}{0.6,0,0}
+\definecolor{deepgreen}{rgb}{0,0.5,0}
+
+%configuring listings package to highlight python syntax
+\newcommand\pythonstyle{\lstset{
+language=Python,
+basicstyle=\ttm,
+otherkeywords={self,plot,run},             % Add keywords here
+keywordstyle=\ttb\color{deepblue},
+emph={MyClass,__init__},          % Custom highlighting
+emphstyle=\ttb\color{deepred},    % Custom highlighting style
+stringstyle=\color{deepgreen},
+%frame=tb,                         % Any extra options here
+showstringspaces=false            % 
+}}
+
+% Python environment
+\lstnewenvironment{python}[1][]
+{
+\pythonstyle
+\lstset{#1}
+}
+{}
+
+% Python for external files
+\newcommand\pythonexternal[2][]{{
+\pythonstyle
+\lstinputlisting[#1]{#2}}}
+
+% Python for inline
+\newcommand\pythoninline[1]{{\pythonstyle\lstinline!#1!}}
+
+%%%%%%%%%%%% begin writing the actual document %%%%%%%%%%%%%%%%%
+\begin{document}
+
+%get the title page
+\frame{\maketitle}
+% welcome page 
+\begin{frame}{Welcome to the course}
+	\begin{center}
+	 Welcome to \emph{\color{deepblue}EduTechLab's} Basic Django Course.
+	\end{center}
+\end{frame}
+
+%%%%%%%%%%%%%%% about python
+
+% preparing the code
+
+% preparing the slide
+\begin{frame}[containsverbatim]{Django At Glance}
+	\begin{flushleft}
+	\begin{itemize}
+		\item{Designed to make Web Development} \\
+		
+		\item{Common useDatabase Driven Web-apps}\\
+
+		\item{don't need to write sql quries} \\
+	
+	\end{itemize}
+	\end{flushleft}
+\end{frame}
+
+\begin{frame}[containsverbatim]{Install virtual environment}
+	\begin{flushleft}
+	\begin{itemize}
+		\item{Install python setup tool} \\
+		\pythoninline{sudo apt-get install python-setuptool}
+		\item{Install Virtual Environment}\\
+		\pythoninline{sudo easy_install virtualenv}
+		\item{Setting up Defalt behaviour like..} \\
+		\pythoninline{virtualenv --no-site-packages django-projectname }
+		\item{Activate the Environment} \\
+		\pythoninline{source django-projectname/bin/activate}
+		\item{Install Django}\\
+		\pythoninline{easy_install django}
+	
+	\end{itemize}
+	\end{flushleft}
+\end{frame}
+
+\begin{frame}[containsverbatim]{Creation Of Project }
+	\begin{flushleft}
+	\begin{itemize}
+		\item{create project first by running} \\
+		\pythoninline{django-admin.py startproject ProjectName}
+		\item{create application to be run inside that ProjectName directory}\\
+		\pythoninline{django-admin.py startapp ApplicationName}
+		\item{activate Virtual Environment} \\
+		\pythoninline{source projectname/bin/activate}
+			
+	\end{itemize}
+	\end{flushleft}
+\end{frame}
+
+\begin{frame}[containsverbatim]{Details Of Project Folder}
+	\begin{itemize}
+        \item{ProjectName Folder contains : } 
+		\begin{itemize}
+			\item{ProjectName folder}
+			\item{manage.py}
+			\item{ApplicationName Folder}
+			\item{Template Folder}
+			\item{DatabaseName.db}
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[containsverbatim]{Details Of ApplicationName Folder}
+	\begin{itemize}
+        \item{ApplicationName Folder contains :} 
+		\begin{itemize}
+			\item{models.py}
+			\item{views.py}
+			\item{urls.py}
+%			\item{\__init\__.py}
+			\item{wsgi.py}
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[containsverbatim]{Details Of Models.py}
+		\pythoninline{models.py Contains :- }
+		\begin{python}
+		from django.db import models
+		  class Article(models.Model):
+			pub_date = models.DateField()
+			headline = models.CharField(max_length=200)
+			content = models.TextField()
+ 			reporter = models.ForeignKey(Reporter)
+ 		\end{python}			
+\end{frame}
+
+\begin{frame}[containsverbatim]{Entry of Database}
+	\begin{itemize}
+		\pythoninline{Make Entry in settings.py :-}
+		\begin{python}
+DATABASES = {
+	 default': {
+      'ENGINE': 'django.db.backends.sqlite3',
+      'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    			}
+		}
+		\end{python}					
+		\item{Absolute Path :- }
+		\pythoninline{os.path.join}	
+		\item{Relative path :-}
+		\pythoninline{/home/Username/ApplicationFolder/ApplicationFolder/DatabaseName.db}
+	\end{itemize}		
+\end{frame}
+
+\begin{frame}[containsverbatim]{AppName Setting}
+	\pythoninline{making entry of AppName in settins.py :-}
+	\begin{python}
+	
+		INSTALLED_APPS = (
+		    'django.contrib.admin',
+		    'django.contrib.auth',
+		    'django.contrib.contenttypes',
+		    'django.contrib.sessions',
+		    'django.contrib.messages',
+		    'django.contrib.staticfiles',
+		    'ApplicationName',
+		)
+	\end{python}
+\end{frame}
+
+\begin{frame}[containsverbatim]{Synchronization}
+	\begin{itemize}
+		\item{Synchronize database}
+		\newline
+		\pythoninline{python manage.py syncdb }	
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[containsverbatim]{Detail Of Urls}
+	\begin{itemize}
+		\item{Setting Up Url}
+		\begin{python}
+from django.conf.urls import patterns, include, url
+ urlpatterns = patterns('',
+ url  (r'^urlpattern/', 
+          include('ApplicationName.ApplicationName_urls')),
+	)
+		\end{python}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[containsverbatim]{Template}
+	\begin{itemize}
+		\item{Simple Template}
+		  \begin{python}
+      	 <html>
+        <body>
+           Hi {{ name }} ,
+       this is the first demonstraion for the danjo project 
+   		   </body>
+    		  </html> 
+		  \end{python}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[containsverbatim]{Views}
+	\begin{itemize}
+		\item{Simple Views.py}
+		  \begin{python}
+	#from django.shortcuts import render
+	#from django.views.generic.base import TemplateView
+     
+     def hello_template_simple(request):
+		name = "eduTech"
+	return render_to_response('hello.html',{'name':name})
+		  \end{python}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[containsverbatim]{Forms}
+	\begin{itemize}
+		\item{Simple Forms}
+		  \begin{python}
+	from django import forms	
+	from models import Newclass
+	   class FormName(forms.ModelForm):
+		class Meta:
+			model = Newclass
+			fields = ('title', 'body', 'pub_date')
+		  \end{python}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[containsverbatim]{Sell Entery}
+	\begin{itemize}
+		\item{Insert data throgh Shell}
+		  \begin{python}
+	from ApplicationName.models import ClassName
+		object = ClassName(attribute='value', . . .) 
+		object.save()
+		  \end{python}
+	\end{itemize}
+\end{frame}	
+
+\begin{frame}[containsverbatim]{RunServer}
+	\begin{itemize}
+		\item{Runserver}
+			\newline
+			\pythoninline{python manage.py runserver}
+		\item{Combination Of Ip and Port}
+			\newline
+			\pythoninline{127.0.0.1:8000}
+	\end{itemize}
+\end{frame}
+
+\end{document}
